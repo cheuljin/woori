@@ -27,11 +27,21 @@ public class Board extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		//DAO에게 일 시키기
 		//List에 담아줘라.  DTO 여러개를...
+		//전체 글수 = totalcount
+		//시작페이지 번호 = pageNo
+		int pageNo = 1;
+		if(request.getParameter("pageNo") != null) {//jsp에서 페이지를 보내주네
+			pageNo = Integer.parseInt(request.getParameter("pageNo"));
+			
+		}
+		
 		BoardDAO dao = new BoardDAO();
-		List<BoardDTO> boardList = dao.boardList();
+		List<BoardDTO> boardList = dao.boardList(pageNo * 10 - 10);
 		
 		RequestDispatcher rd = request.getRequestDispatcher("./board.jsp");
 		request.setAttribute("list", boardList); // ${list } 실제 데이터
+		request.setAttribute("totalcount", boardList.get(0).getTotalcount());// 전체글수 뽑아줘라
+		request.setAttribute("pageNo", pageNo); // LIMIT 0, 10;
 		rd.forward(request, response);
 	}
 

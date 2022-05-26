@@ -16,7 +16,7 @@ public class NoticeDAO extends AbstractDAO{
 		ResultSet rs = null;
 		String sql = "INSERT INTO may_notice (n_title, n_content, n_orifilename, n_filename, m_no) VALUES (?, ?, ?, ?, (SELECT m_no FROM may_member WHERE m_id=?))";
 		
-		try {
+		try { 
 			pstmt = con.prepareStatement(sql);
 			pstmt. setString(1, dto.getN_title());
 			pstmt. setString(2, dto.getN_content());
